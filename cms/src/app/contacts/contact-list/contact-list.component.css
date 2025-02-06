@@ -1,0 +1,21 @@
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn {
+    margin-left: auto;
+}
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+}
+.contact-image {
+    width: 10%;
+}
+
+.list-group-item-heading {
+    margin: 0;
+}
