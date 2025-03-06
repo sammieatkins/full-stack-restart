@@ -13,12 +13,7 @@ export class ContactListComponent implements OnInit{
   contacts: Contact[] = [];
   ngOnInit() {
    this.contacts = this.contactService.getContacts();
-  }
-  // @Output() selectedContactEvent = new EventEmitter<Contact>();
-
-  // Inject the ContactService into the ContactListComponent class so that the new contactSelectedEvent emitter can be referenced in the ContactListComponent.
-
-  
+  } 
 
   onSelected(contact: Contact) {
     this.contactService.contactSelectedEvent.emit(contact);
