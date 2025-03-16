@@ -8,8 +8,10 @@
   <div class="panel-body">
     <div class="center-panel">
       <!-- Assign the current document to the document input class variable defined in the DocumentItemComponent class. -->
-      <cms-document-item *ngFor="let document of documents" [document]="document"></cms-document-item>
+      <cms-document-item
+        *ngFor="let document of documents"
+        [document]="document"
+      ></cms-document-item>
     </div>
   </div>
-
 </div>

@@ -26,10 +26,9 @@ export class DocumentDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Subscribe to route params to get the document ID
     this.route.params.subscribe((params: Params) => {
-      this.id = params['id']; // Get the 'id' parameter from the URL
-      this.document = this.documentService.getDocument(this.id); // Fetch the document
+      this.id = params['id'];
+      this.document = this.documentService.getDocument(this.id);
     });
   }
 
