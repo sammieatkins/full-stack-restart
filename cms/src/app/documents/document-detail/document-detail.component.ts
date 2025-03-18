@@ -14,7 +14,7 @@ import { WindRefService } from '../../wind-ref.service';
 export class DocumentDetailComponent implements OnInit {
   nativeWindow: any;
   document: Document | undefined;
-  id: string; // ID parameter will be a string
+  id: string;
 
   constructor(
     private documentService: DocumentService,
