@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { DndModule } from 'ng2-dnd';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -14,9 +16,9 @@ import { DocumentDetailComponent } from './documents/document-detail/document-de
 import { MessageItemComponent } from './messages/message-item/message-item.component';
 import { MessageEditComponent } from './messages/message-edit/message-edit.component';
 import { MessageListComponent } from './messages/message-list/message-list.component';
-import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
+import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { DocumentEditComponent } from './documents/document-edit/document-edit.c
     ContactListComponent,
     ContactDetailComponent,
     ContactItemComponent,
+    ContactEditComponent,
     DocumentsComponent,
     DocumentListComponent,
     DocumentItemComponent,
@@ -38,7 +41,8 @@ import { DocumentEditComponent } from './documents/document-edit/document-edit.c
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DndModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
