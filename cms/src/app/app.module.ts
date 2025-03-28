@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { provideHttpClient } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -18,6 +19,7 @@ import { MessageListComponent } from './messages/message-list/message-list.compo
 import { AppRoutingModule } from './app-routing.module';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
+import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -35,14 +37,17 @@ import { ContactEditComponent } from './contacts/contact-edit/contact-edit.compo
     MessageItemComponent,
     MessageEditComponent,
     MessageListComponent,
-    DocumentEditComponent
+    DocumentEditComponent,
+    ContactsFilterPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    provideHttpClient() 
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

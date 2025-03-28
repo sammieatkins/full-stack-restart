@@ -8,21 +8,28 @@ import { ContactService } from '../contact.service';
   selector: 'cms-contact-list',
   standalone: false,
   templateUrl: './contact-list.component.html',
-  styleUrl: './contact-list.component.css'
+  styleUrl: './contact-list.component.css',
 })
 export class ContactListComponent implements OnInit, OnDestroy {
   constructor(private contactService: ContactService) {}
   private subscription: Subscription;
   contacts: Contact[] = [];
+  term: string = '';
 
   ngOnInit() {
     this.contacts = this.contactService.getContacts();
-    this.subscription = this.contactService.contactChangedEvent.subscribe((contacts: Contact[]) => {
-      this.contacts = contacts;
-    });
+    this.subscription = this.contactService.contactChangedEvent.subscribe(
+      (contacts: Contact[]) => {
+        this.contacts = contacts;
+      }
+    );
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  search(value: string) {
+    this.term = value;
   }
 }
