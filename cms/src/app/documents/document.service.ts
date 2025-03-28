@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 import { Document } from './document.model';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
@@ -13,13 +14,44 @@ export class DocumentService {
   documentChangedEvent = new Subject<Document[]>();
   maxDocumentId: number;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.documents = MOCKDOCUMENTS;
     this.maxDocumentId = this.getMaxId();
   }
 
-  getDocuments(): Document[] {
-    return this.documents.slice();
+  getDocuments(): void {
+    this.http
+      .get<Document[]>(
+        'https://fullstack-edc45-default-rtdb.firebaseio.com/documents.json'
+      )
+      .subscribe({
+        next: (documents) => {
+          this.documents = documents ?? [];
+          this.maxDocumentId = this.getMaxId();
+          this.documents.sort((a, b) => a.name.localeCompare(b.name));
+          this.documentChangedEvent.next(this.documents.slice());
+        },
+        error: (error) => {
+          console.error('Error fetching documents:', error);
+        },
+      });
+  }
+
+  storeDocuments(): void {
+    this.http
+      .put(
+        'https://fullstack-edc45-default-rtdb.firebaseio.com/documents.json',
+        this.documents
+      )
+      .subscribe({
+        next: () => {
+          // Emit updated list so the UI stays in sync
+          this.documentChangedEvent.next(this.documents.slice());
+        },
+        error: (error) => {
+          console.error('Error storing documents:', error);
+        },
+      });
   }
 
   getDocument(id: string): Document | null {
@@ -29,18 +61,6 @@ export class DocumentService {
       }
     }
     return null;
-  }
-
-  deleteDocument(document: Document) {
-    if (!document) {
-      return;
-    }
-    const pos = this.documents.indexOf(document);
-    if (pos < 0) {
-      return;
-    }
-    this.documents.splice(pos, 1);
-    this.documentChangedEvent.next(this.documents.slice());
   }
 
   getMaxId() {
@@ -56,33 +76,35 @@ export class DocumentService {
   }
 
   addDocument(newDocument: Document): void {
-    // Checks for both undefined and null
-    if (newDocument == null) {
-      return;
-    }
+    if (!newDocument) return;
 
     this.maxDocumentId++;
     newDocument.id = this.maxDocumentId.toString();
 
     this.documents.push(newDocument);
-
-    const documentsListClone = this.documents.slice();
-    this.documentChangedEvent.next(documentsListClone);
+    this.storeDocuments();
   }
 
-  updateDocument(originalDocument: Document, newDocument: Document) {
-    if (originalDocument == null || newDocument == null) {
-      return;
-    }
+  updateDocument(originalDocument: Document, newDocument: Document): void {
+    if (!originalDocument || !newDocument) return;
 
-    let pos = this.documents.indexOf(originalDocument);
-    if (pos < 0) {
-      return;
-    }
+    const pos = this.documents.indexOf(originalDocument);
+    if (pos < 0) return;
 
     newDocument.id = originalDocument.id;
     this.documents[pos] = newDocument;
-    let documentsListClone = this.documents.slice();
-    this.documentChangedEvent.next(documentsListClone);
+
+    this.storeDocuments();
+  }
+
+  deleteDocument(document: Document): void {
+    if (!document) return;
+
+    const pos = this.documents.indexOf(document);
+    if (pos < 0) return;
+
+    this.documents.splice(pos, 1);
+
+    this.storeDocuments();
   }
 }
