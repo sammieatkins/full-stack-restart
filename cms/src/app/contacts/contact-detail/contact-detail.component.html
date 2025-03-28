@@ -1,18 +1,18 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-xs-6">
-                <h1 class="panel-title text-left">{{contact.name}}</h1>
-                <img [src]="contact.imageUrl" alt="" class="contact-image">
-            </div>
-            <div class="col text-right">
-                <a [routerLink]="['edit']" class="btn btn-primary">Edit</a>
-                <a (click)="onDelete()" class="btn btn-danger">Delete</a>
-            </div>
-        </div>
+<div *ngIf="contact" class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-xs-6">
+        <h1 class="panel-title text-left">{{ contact.name }}</h1>
+        <img [src]="contact.imageUrl" alt="" class="contact-image" />
+      </div>
+      <div class="col text-right">
+        <a [routerLink]="['edit']" class="btn btn-primary">Edit</a>
+        <a (click)="onDelete()" class="btn btn-danger">Delete</a>
+      </div>
     </div>
-    <div class="panel-body">
-        <p>Email: {{contact.email}}</p>
-        <p>Phone: {{contact.phone}}</p>
-    </div>
+  </div>
+  <div class="panel-body">
+    <p>Email: {{ contact.email }}</p>
+    <p>Phone: {{ contact.phone }}</p>
+  </div>
 </div>
